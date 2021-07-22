@@ -12,7 +12,7 @@ import org.jdamico.gpsd.client.threads.OutputThread;
 import org.jdamico.gpsd.client.threads.VerifierThread;
 
 
-public class Runtime {
+public class GpsdClientRuntime {
 
 	private static TelnetClient telnet = null;
 	public static InputStream in;
@@ -21,8 +21,12 @@ public class Runtime {
 	private static boolean shouldListenOutput = false;
 	public static final int PROCESS_INTERVAL_MS = 5000;
 	public static final int DOP_MINIMAL_PRECISION = 6;
+	public static String server;
+	public static int port;
 
-	public Runtime(String server, int port) throws SocketException, IOException {
+	public GpsdClientRuntime(String server, int port) throws SocketException, IOException {
+		GpsdClientRuntime.server = server;
+		GpsdClientRuntime.port = port;
 		telnet = new TelnetClient();
 		telnet.connect(server, port);
 		shouldListenOutput = true;
@@ -85,10 +89,10 @@ public class Runtime {
 
 		if(args.length == 2) {
 
-			String host = args[0];
+			GpsdClientRuntime.server = args[0];
 			try {
-				int port = Integer.parseInt(args[1]);
-				connetAndCollectFromGpsD(host, port);
+				GpsdClientRuntime.port = Integer.parseInt(args[1]);
+				connetAndCollectFromGpsD();
 			}catch (NumberFormatException e) {
 				System.err.println("Exception at Main class: "+e.getMessage());
 				System.exit(1);
@@ -99,11 +103,11 @@ public class Runtime {
 		}
 	}
 
-	public static void connetAndCollectFromGpsD(String host, int port) {
-		Runtime telnet = null;
+	public static void connetAndCollectFromGpsD() {
+		GpsdClientRuntime telnet = null;
 		try {
-			System.out.println("Trying to connect GPSD..."+host+":"+port);
-			telnet = new Runtime(host, port);	
+			System.out.println("Trying to connect GPSD..."+server+":"+port);
+			telnet = new GpsdClientRuntime(server, port);	
 			Thread outputThread = new OutputThread();
 			Thread verifierThread = new VerifierThread();
 			outputThread.start();
