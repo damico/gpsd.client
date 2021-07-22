@@ -1,2 +1,2 @@
 # gpsd.client
-Java implementation of a GPS.Client through TCP connection
+Java implementation of a Linux GPSD Client through TCP connection
