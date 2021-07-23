@@ -18,7 +18,7 @@ public class GpsdClientRuntime {
 	public static InputStream in;
 	private PrintStream out;
 	public static Map<String, String> outputMessageMap = null;
-	private static boolean shouldListenOutput = false;
+	public static boolean shouldListenOutput = false;
 	public static final int PROCESS_INTERVAL_MS = 5000;
 	public static final int DOP_MINIMAL_PRECISION = 6;
 	public static String server;
