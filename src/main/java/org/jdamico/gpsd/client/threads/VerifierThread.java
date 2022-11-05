@@ -27,7 +27,7 @@ public class VerifierThread extends Thread {
 						Z = gpsGstEntity.getAlt();
 						
 						
-						if(X != null && Y!=null && Z!=null) {
+						if(X != null && Y!=null && Z!=null && X != 0 && Y != 0) {
 							GpsdClientRuntime.shouldListenOutput = false;
 							System.out.println("POSITION COLLECTED =>  X: "+X + ", Y: "+Y+", Z: "+Z);
 						}
