@@ -82,6 +82,41 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>TimeSpaceRuntime</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>
+										org.jdamico.gpsd.client.TimeSpaceRuntime
+									</mainClass>
+								</manifest>
+
+								<manifestEntries>
+									<Implementation-Vendor>Jose Damico (PU2LVM)</Implementation-Vendor>
+									<Implementation-Version>${project.version}</Implementation-Version>
+								</manifestEntries>
+
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<finalName>packet-tester</finalName>
+						</configuration>
+					</execution>
+
+					
+
+				</executions>
+			</plugin>
 		</plugins>
 </build>
 </project>

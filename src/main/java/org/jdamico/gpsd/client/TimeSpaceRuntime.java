@@ -8,8 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.net.telnet.TelnetClient;
+import org.jdamico.gpsd.client.threads.ListenerOutputThread;
+import org.jdamico.gpsd.client.threads.ListenerThread;
 import org.jdamico.gpsd.client.threads.OutputThread;
-import org.jdamico.gpsd.client.threads.VerifierThread;
 
 
 public class TimeSpaceRuntime {
@@ -94,6 +95,7 @@ public class TimeSpaceRuntime {
 				TimeSpaceRuntime.port = Integer.parseInt(args[1]);
 				connetAndCollectFromGpsD();
 			}catch (NumberFormatException e) {
+				e.printStackTrace();
 				System.err.println("Exception at Main class: "+e.getMessage());
 				System.exit(1);
 			}
@@ -108,8 +110,8 @@ public class TimeSpaceRuntime {
 		try {
 			System.out.println("Trying to connect GPSD..."+server+":"+port);
 			telnet = new TimeSpaceRuntime(server, port);	
-			Thread outputThread = new OutputThread();
-			Thread verifierThread = new VerifierThread();
+			Thread outputThread = new ListenerOutputThread();
+			Thread listenerThread = new ListenerThread();
 			outputThread.start();
 
 			Thread.sleep(PROCESS_INTERVAL_MS);
@@ -117,7 +119,7 @@ public class TimeSpaceRuntime {
 			if(telnet != null && outputMessageMap != null && outputMessageMap.containsKey("VERSION")) {
 				System.out.println("GPSD connected!");
 				telnet.sendCommand("?WATCH={\"enable\":true,\"json\":true}");
-				verifierThread.start();
+				listenerThread.start();
 				System.out.println("Verifier thread started.");
 			} else disconnect();
 
