@@ -44,7 +44,7 @@ public class GpsdClientRuntime {
 				sb.append(ch);
 				if(ch == '\n') {
 					String line = sb.toString();
-					System.out.println(line);      
+					//System.out.println(line);      
 					if(line.contains("\"class\":\"VERSION\"")) outputMessageMap.put("VERSION", line);
 					else if(line.contains("\"class\":\"DEVICES\"")) outputMessageMap.put("DEVICES", line);
 					else if(line.contains("\"class\":\"WATCH\"")) outputMessageMap.put("WATCH", line);

@@ -20,14 +20,14 @@ public class VerifierThread extends Thread {
 				if(GpsdClientRuntime.outputMessageMap.containsKey("WATCH") && GpsdClientRuntime.outputMessageMap.containsKey("TPV") && GpsdClientRuntime.outputMessageMap.containsKey("WATCH") && GpsdClientRuntime.outputMessageMap.containsKey("DEVICES") && GpsdClientRuntime.outputMessageMap.containsKey("SKY")) {
 					gpsSkyEntity = gson.fromJson(GpsdClientRuntime.outputMessageMap.get("SKY"), GpsSkyEntity.class);
 					if(gpsSkyEntity.getGdop() !=null && gpsSkyEntity.getGdop() < GpsdClientRuntime.DOP_MINIMAL_PRECISION && gpsSkyEntity.getPdop() !=null && gpsSkyEntity.getPdop() < GpsdClientRuntime.DOP_MINIMAL_PRECISION) {
-						
+						System.out.println(GpsdClientRuntime.outputMessageMap.get("TPV"));
 						GpsTpvEntity gpsGstEntity = gson.fromJson(GpsdClientRuntime.outputMessageMap.get("TPV"), GpsTpvEntity.class);
 						X = gpsGstEntity.getLon();
 						Y = gpsGstEntity.getLat();
 						Z = gpsGstEntity.getAlt();
 						
 						
-						if(X != null && Y!=null && Z!=null) {
+						if(X != null && Y!=null && Z!=null && X != 0 && Y != 0) {
 							GpsdClientRuntime.shouldListenOutput = false;
 							System.out.println("POSITION COLLECTED =>  X: "+X + ", Y: "+Y+", Z: "+Z);
 						}
